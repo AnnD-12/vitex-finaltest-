@@ -52,6 +52,10 @@ if "game_state" not in st.session_state:
 # ====================
 # Functions
 # ====================
+def select_gift(idx):
+    st.session_state["selected_gift"] = st.session_state["shuffled_gifts"][idx]
+    st.session_state["game_state"] = "result"
+
 def show_home():
     st.markdown("<h2 style='text-align: center;'>🎁 Chọn một hộp quà để khám phá!</h2>", unsafe_allow_html=True)
     st.markdown("<div style='height: 30px'></div>", unsafe_allow_html=True)
@@ -60,9 +64,7 @@ def show_home():
     for idx, col in enumerate(cols):
         with col:
             st.image(gift_images[idx % len(gift_images)], width=90)
-            if st.button(f"Hộp {idx+1}", key=f"gift_{idx}"):
-                st.session_state["selected_gift"] = st.session_state["shuffled_gifts"][idx]
-                st.session_state["game_state"] = "result"
+            st.button(f"Hộp {idx+1}", key=f"gift_{idx}", on_click=select_gift, args=(idx,))
 
 def show_result():
     gift = st.session_state["selected_gift"]
@@ -97,7 +99,7 @@ def show_result():
         st.snow()
 
     elif gift["type"] == "star":
-        st.success("⭐ Bạn thật may mắn! Nhưng không phải kết quả học sinh nhé!")
+        st.success("⭐ Bạn thật may mắn! Nhưng đây không phải kết quả học sinh nhé!")
         st.balloons()
 
     # ===== Nút Home =====
