@@ -1,16 +1,37 @@
 import streamlit as st
 from students_data import students_data
+import random
 
 st.set_page_config(page_title="VITEX Results", page_icon="🎁", layout="centered")
 
 # =====================
-# Function: Hiển thị màn mở hộp quà
+# Load ảnh hộp quà mới
+# =====================
+gift_images = [
+    "https://cdn-icons-png.flaticon.com/512/4315/4315445.png",
+    "https://cdn-icons-png.flaticon.com/512/4315/4315446.png",
+    "https://cdn-icons-png.flaticon.com/512/4315/4315450.png",
+    "https://cdn-icons-png.flaticon.com/512/4315/4315451.png",
+    "https://cdn-icons-png.flaticon.com/512/4315/4315452.png",
+]
+
+# =====================
+# Function: Hiển thị 5 hộp quà chính giữa
 # =====================
 def gift_box():
-    st.image("https://i.imgur.com/C3p8ZnG.png", width=300)  # Hình hộp quà
-    st.markdown("<h3 style='text-align: center;'>🎁 Bạn đã sẵn sàng khám phá kết quả chưa?</h3>", unsafe_allow_html=True)
-    if st.button("🚀 Mở Hộp Quà"):
-        st.session_state["opened_gift"] = True
+    st.markdown("<h2 style='text-align: center;'>🎁 Bạn đã sẵn sàng khám phá kết quả chưa?</h2>", unsafe_allow_html=True)
+
+    # Khoảng cách trên dưới cho cân đối
+    st.markdown("<div style='height: 30px'></div>", unsafe_allow_html=True)
+
+    cols = st.columns(5)
+
+    for idx, col in enumerate(cols):
+        with col:
+            st.image(gift_images[idx % len(gift_images)], width=100)
+            if st.button(f"🎁 Hộp {idx+1}", key=f"gift_{idx}"):
+                st.session_state["opened_gift"] = True
+                st.session_state["selected_gift"] = idx
 
 # =====================
 # Function: Giao diện chọn học sinh
@@ -51,4 +72,11 @@ if "opened_gift" not in st.session_state:
 if not st.session_state["opened_gift"]:
     gift_box()
 else:
-    main_app()
+    # ===== Khi chọn xong hộp quà =====
+    st.balloons()  # Hiệu ứng nổ bóng bay
+    st.markdown("<h2 style='text-align: center; color: #FF4B4B;'>🎉 Chúc mừng bạn đã mở được hộp quà! 🎉</h2>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 20px'></div>", unsafe_allow_html=True)
+
+    # Thêm nút "Tiếp tục" để vào phần chính
+    if st.button("🚀 Bắt đầu khám phá kết quả"):
+        main_app()
