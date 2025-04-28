@@ -1,6 +1,5 @@
 import streamlit as st
 from students_data import students_data
-import random
 
 # ====================
 # Font + Page setup
@@ -21,12 +20,12 @@ st.markdown("""
 # Data setup
 # ====================
 gifts = [
+    {"type": "bomb", "name": "💣 Boom"},
     {"type": "student", "name": "Anh Bách"},
     {"type": "student", "name": "Chị Huế"},
     {"type": "student", "name": "Anh Sức"},
     {"type": "student", "name": "Quỳnh"},
     {"type": "student", "name": "Tuấn"},
-    {"type": "bomb", "name": "💣 Boom"},
     {"type": "star", "name": "⭐ Star"},
 ]
 
@@ -46,18 +45,19 @@ gift_images = [
 if "game_state" not in st.session_state:
     st.session_state["game_state"] = "home"
     st.session_state["selected_gift"] = None
-    st.session_state["shuffled_gifts"] = random.sample(gifts, len(gifts))
+    st.session_state["opened_boxes"] = []
 
 # ====================
 # Callback Functions
 # ====================
 def select_gift(idx):
-    st.session_state["selected_gift"] = st.session_state["shuffled_gifts"][idx]
-    st.session_state["game_state"] = "result"
+    if idx not in st.session_state["opened_boxes"]:
+        st.session_state["selected_gift"] = gifts[idx]
+        st.session_state["game_state"] = "result"
+        st.session_state["opened_boxes"].append(idx)
 
 def go_home():
     st.session_state["game_state"] = "home"
-    st.session_state["shuffled_gifts"] = random.sample(gifts, len(gifts))
 
 # ====================
 # Display Functions
@@ -70,7 +70,14 @@ def show_home():
     for idx, col in enumerate(cols):
         with col:
             st.image(gift_images[idx % len(gift_images)], width=90)
-            st.button(f"Hộp {idx+1}", key=f"gift_{idx}", on_click=select_gift, args=(idx,))
+            disabled = idx in st.session_state["opened_boxes"]
+            st.button(
+                f"Hộp {idx+1}",
+                key=f"gift_{idx}",
+                on_click=select_gift,
+                args=(idx,),
+                disabled=disabled
+            )
 
 def show_result():
     gift = st.session_state["selected_gift"]
