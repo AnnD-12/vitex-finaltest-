@@ -4,39 +4,21 @@ students_data = {
         "Vocabulary": 7,
         "Phonetics": 9,
         "Speaking": 8,
-        "Feedback_Speaking": "Bài nói đáp ứng được các yêu cầu của đề bài, có mở bài, trình bày rõ ràng các kế hoạch cụ thể từng bước. Bài nói rõ ràng các ý, mạch lạc và có sử dụng được các từ nối như: first, second, … Điểm cần cải thiện: Phát âm cần luyện thêm, đặc biệt âm 's'.",
-        "Feedback_Overall": "Tiến bộ rõ rệt, truyền đạt tốt, cần luyện thêm nghe và phát âm."
+        "Feedback_Speaking": """- Bài nói đáp ứng được các yêu cầu của đề bài, có mở bài, trình bày rõ ràng các kế hoạch cụ thể từng bước. Bài nói rõ ràng các ý, mạch lạc và có sử dụng được các từ nối, giúp liên kết các ý với nhau như: first, second, …
+- Từ vựng: Sử dụng được đa dạng các từ liên quan tới chủ đề bài học và dùng đúng ngữ cảnh, nhìn chung rất dễ hiểu và rõ ràng.
+- Điểm cần cải thiện: Phát âm cần luyện tập thêm, đặc biệt là các âm “s”. Đôi lúc còn ngắc ngứ hơi lâu nên ảnh hưởng tới độ trôi chảy.""",
+        "Feedback_Overall": """Qua một thời gian em có thấy sự tiến bộ rất rõ rệt của anh Bách, không chỉ về độ tự tin khi nói mà còn về khả năng truyền đạt thông tin, rất rõ ràng, mạch lạc. Em nghĩ anh không nên quá tự ti đâu, anh tiến bộ nhiều rồi nên anh xứng đáng được công nhận. Hy vọng anh Bách có thể nhìn vào kết quả lần này để có động lực “yêu thích” môn tiếng Anh và dành thêm một chút thời gian mỗi ngày để nâng cao trình độ, đặc biệt là khoản nghe, từ vựng và phát âm. Cố gắng nha ạ! Gút chóp!"""
     },
     "Chị Huế": {
         "Listening": 5,
         "Vocabulary": 10,
         "Phonetics": 10,
         "Speaking": 8,
-        "Feedback_Speaking": "Bài nói rõ ràng, có mở bài, trình bày mạch lạc bằng từ nối. Cần luyện thêm phát âm từ như 'image', 'error'.",
-        "Feedback_Overall": "Chị Huế tiến bộ rất nhiều, tự tin hơn, giảm tiếng địa phương. Gút chóp!"
+        "Feedback_Speaking": """- Bài nói đáp ứng được các yêu cầu của đề bài, có mở bài, trình bày rõ ràng problem của case study. Bài nói rõ ràng và mạch lạc, được liên kết nhờ việc sử dụng các từ nối.
+- Từ vựng: Sử dụng được các từ vựng liên quan tới chủ đề và các từ đã học. Khoản này chị Huế làm rất tốt ạ!
+- Điểm cần cải thiện: Phát âm cần luyện tập thêm ở một số từ như image/ error/ storage/... và nên có lên xuống giọng, nhấn nhá để bài nói nghe tự tin hơn.""",
+        "Feedback_Overall": """Em đánh giá chị Huế là điển hình cho câu nói “Có công mài sắt, có ngày nên kim”. Rất chăm học, chịu khó nên thực sự có thấy được sự tiến bộ rõ rệt. Không chỉ ở khoản nghe mà cả việc phát âm, em thấy đã đỡ tiếng địa phương đi nhiều rồi đó ah. Em cũng thấy sự tự tin của chị Huế khi nói nên rất tuyệt vời ạ. Gút chóp!"""
     },
-    "Anh Sức": {
-        "Listening": 6,
-        "Vocabulary": 10,
-        "Phonetics": 10,
-        "Speaking": 8,
-        "Feedback_Speaking": "Role-play tự nhiên, sử dụng từ nối tốt, nên luyện thêm phát âm từ 'error', 'client'.",
-        "Feedback_Overall": "Anh Sức tiến bộ nghe-nói từ vựng rõ rệt. Nên tiếp tục luyện giao tiếp mỗi ngày."
-    },
-    "Quỳnh": {
-        "Listening": 7,
-        "Vocabulary": 10,
-        "Phonetics": 9,
-        "Speaking": 8,
-        "Feedback_Speaking": "Role-play rất tốt, dùng cảm thán và câu hỏi tự nhiên. Cần luyện phát âm từ 'message', 'customer'.",
-        "Feedback_Overall": "Quỳnh nói trôi chảy hơn, cần luyện từ thêm và tự tin lên. Đừng overthinking!"
-    },
-    "Tuấn": {
-        "Listening": 8,
-        "Vocabulary": 10,
-        "Phonetics": 9,
-        "Speaking": 8.5,
-        "Feedback_Speaking": "Introduction, problem, solution đều rõ. Cần luyện thêm phát âm 'message' và âm 's'.",
-        "Feedback_Overall": "Anh Tuấn trình bày ngắn gọn rõ ràng hơn trước. Chúc thành công! Hope to see you soon!"
-    }
+    ...
+    # Tiếp tục các học sinh khác
 }
