@@ -44,7 +44,9 @@ gift_images = [
 # ====================
 if "game_state" not in st.session_state:
     st.session_state["game_state"] = "home"
+if "selected_gift" not in st.session_state:
     st.session_state["selected_gift"] = None
+if "opened_boxes" not in st.session_state:
     st.session_state["opened_boxes"] = []
 
 # ====================
