@@ -2,56 +2,84 @@ import streamlit as st
 from students_data import students_data
 import random
 
-st.set_page_config(page_title="VITEX Results", page_icon="🎁", layout="centered")
+# ====================
+# Font + Page setup
+# ====================
+st.set_page_config(page_title="VITEX Gift Game", page_icon="🎁", layout="centered")
 
-# =====================
-# Load ảnh hộp quà mới
-# =====================
+# Inject Google Font Nunito
+st.markdown("""
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+    html, body, [class*="css"]  {
+        font-family: 'Nunito', sans-serif;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# ====================
+# Data setup
+# ====================
+gifts = [
+    {"type": "student", "name": "Anh Bách"},
+    {"type": "student", "name": "Chị Huế"},
+    {"type": "student", "name": "Anh Sức"},
+    {"type": "student", "name": "Quỳnh"},
+    {"type": "student", "name": "Tuấn"},
+    {"type": "bomb", "name": "Boom 💣"},
+    {"type": "star", "name": "Star ⭐"},
+]
+
+# Ảnh hộp quà khác màu
 gift_images = [
     "https://cdn-icons-png.flaticon.com/512/4315/4315445.png",
     "https://cdn-icons-png.flaticon.com/512/4315/4315446.png",
     "https://cdn-icons-png.flaticon.com/512/4315/4315450.png",
     "https://cdn-icons-png.flaticon.com/512/4315/4315451.png",
     "https://cdn-icons-png.flaticon.com/512/4315/4315452.png",
+    "https://cdn-icons-png.flaticon.com/512/4315/4315453.png",
+    "https://cdn-icons-png.flaticon.com/512/4315/4315454.png",
 ]
 
-# =====================
-# Function: Hiển thị 5 hộp quà chính giữa
-# =====================
-def gift_box():
-    st.markdown("<h2 style='text-align: center;'>🎁 Bạn đã sẵn sàng khám phá kết quả chưa?</h2>", unsafe_allow_html=True)
+# ====================
+# Main Logic
+# ====================
+if "game_state" not in st.session_state:
+    st.session_state["game_state"] = "home"  # home | result
+    st.session_state["selected_gift"] = None
 
-    # Khoảng cách trên dưới cho cân đối
+# Random gifts mỗi lần load
+if "shuffled_gifts" not in st.session_state:
+    st.session_state["shuffled_gifts"] = random.sample(gifts, len(gifts))
+
+def show_home():
+    st.markdown("<h2 style='text-align: center;'>🎁 Chọn một hộp quà để khám phá!</h2>", unsafe_allow_html=True)
     st.markdown("<div style='height: 30px'></div>", unsafe_allow_html=True)
 
-    cols = st.columns(5)
-
+    cols = st.columns(7)
     for idx, col in enumerate(cols):
         with col:
-            st.image(gift_images[idx % len(gift_images)], width=100)
-            if st.button(f"🎁 Hộp {idx+1}", key=f"gift_{idx}"):
-                st.session_state["opened_gift"] = True
-                st.session_state["selected_gift"] = idx
+            st.image(gift_images[idx % len(gift_images)], width=80)
+            if st.button(f"Hộp {idx+1}", key=f"gift_{idx}"):
+                st.session_state["selected_gift"] = st.session_state["shuffled_gifts"][idx]
+                st.session_state["game_state"] = "result"
+                st.balloons()
 
-# =====================
-# Function: Giao diện chọn học sinh
-# =====================
-def main_app():
-    st.title("🎯 Kết quả học tập VITEX")
+def show_result():
+    gift = st.session_state["selected_gift"]
 
-    student_name = st.selectbox("👤 Chọn tên của bạn:", list(students_data.keys()))
+    if gift["type"] == "student":
+        name = gift["name"]
+        student = students_data[name]
+        st.success(f"🎉 Bạn đã mở được hộp quà của {name}!")
 
-    if student_name:
-        student = students_data[student_name]
-
-        st.subheader(f"📝 Điểm của {student_name}")
         col1, col2 = st.columns(2)
         with col1:
             st.metric("🎧 Listening", f"{student['Listening']}/10")
-            st.metric("🗣️ Speaking", f"{student['Speaking']}/10")
-        with col2:
             st.metric("🧠 Vocabulary", f"{student['Vocabulary']}/10")
+        with col2:
             st.metric("🔊 Phonetics", f"{student['Phonetics']}/10")
+            st.metric("🗣️ Speaking", f"{student['Speaking']}/10")
 
         st.divider()
 
@@ -63,20 +91,24 @@ def main_app():
         with st.expander("🌟 Nhận xét chung"):
             st.markdown(student['Feedback_Overall'])
 
-# =====================
-# MAIN APP
-# =====================
-if "opened_gift" not in st.session_state:
-    st.session_state["opened_gift"] = False
+    elif gift["type"] == "bomb":
+        st.error("💣 Boom! Bạn đã chọn trúng hộp bom!")
+        st.snow()
 
-if not st.session_state["opened_gift"]:
-    gift_box()
-else:
-    # ===== Khi chọn xong hộp quà =====
-    st.balloons()  # Hiệu ứng nổ bóng bay
-    st.markdown("<h2 style='text-align: center; color: #FF4B4B;'>🎉 Chúc mừng bạn đã mở được hộp quà! 🎉</h2>", unsafe_allow_html=True)
-    st.markdown("<div style='height: 20px'></div>", unsafe_allow_html=True)
+    elif gift["type"] == "star":
+        st.balloons()
+        st.success("⭐ Bạn thật may mắn! Nhưng đây không phải là kết quả học sinh nhé!")
 
-    # Thêm nút "Tiếp tục" để vào phần chính
-    if st.button("🚀 Bắt đầu khám phá kết quả"):
-        main_app()
+    # ===== Nút Home =====
+    st.markdown("<div style='height: 30px'></div>", unsafe_allow_html=True)
+    if st.button("🏠 Quay về chọn hộp khác"):
+        st.session_state["game_state"] = "home"
+        st.session_state["shuffled_gifts"] = random.sample(gifts, len(gifts))
+
+# ====================
+# Main Control
+# ====================
+if st.session_state["game_state"] == "home":
+    show_home()
+elif st.session_state["game_state"] == "result":
+    show_result()
