@@ -26,32 +26,32 @@ gifts = [
     {"type": "student", "name": "Anh Sức"},
     {"type": "student", "name": "Quỳnh"},
     {"type": "student", "name": "Tuấn"},
-    {"type": "bomb", "name": "Boom 💣"},
-    {"type": "star", "name": "Star ⭐"},
+    {"type": "bomb", "name": "💣 Boom"},
+    {"type": "star", "name": "⭐ Star"},
 ]
 
-# Ảnh hộp quà khác màu
+# 7 hộp quà đẹp
 gift_images = [
-    "https://cdn-icons-png.flaticon.com/512/4315/4315445.png",
-    "https://cdn-icons-png.flaticon.com/512/4315/4315446.png",
-    "https://cdn-icons-png.flaticon.com/512/4315/4315450.png",
-    "https://cdn-icons-png.flaticon.com/512/4315/4315451.png",
-    "https://cdn-icons-png.flaticon.com/512/4315/4315452.png",
-    "https://cdn-icons-png.flaticon.com/512/4315/4315453.png",
-    "https://cdn-icons-png.flaticon.com/512/4315/4315454.png",
+    "https://cdn-icons-png.flaticon.com/512/744/744922.png",  # Red
+    "https://cdn-icons-png.flaticon.com/512/744/744932.png",  # Blue
+    "https://cdn-icons-png.flaticon.com/512/744/744935.png",  # Green
+    "https://cdn-icons-png.flaticon.com/512/744/744934.png",  # Yellow
+    "https://cdn-icons-png.flaticon.com/512/744/744930.png",  # Purple
+    "https://cdn-icons-png.flaticon.com/512/744/744926.png",  # Orange
+    "https://cdn-icons-png.flaticon.com/512/744/744924.png",  # Pink
 ]
 
 # ====================
-# Main Logic
+# Session State
 # ====================
 if "game_state" not in st.session_state:
     st.session_state["game_state"] = "home"  # home | result
     st.session_state["selected_gift"] = None
-
-# Random gifts mỗi lần load
-if "shuffled_gifts" not in st.session_state:
     st.session_state["shuffled_gifts"] = random.sample(gifts, len(gifts))
 
+# ====================
+# Functions
+# ====================
 def show_home():
     st.markdown("<h2 style='text-align: center;'>🎁 Chọn một hộp quà để khám phá!</h2>", unsafe_allow_html=True)
     st.markdown("<div style='height: 30px'></div>", unsafe_allow_html=True)
@@ -59,11 +59,10 @@ def show_home():
     cols = st.columns(7)
     for idx, col in enumerate(cols):
         with col:
-            st.image(gift_images[idx % len(gift_images)], width=80)
+            st.image(gift_images[idx % len(gift_images)], width=90)
             if st.button(f"Hộp {idx+1}", key=f"gift_{idx}"):
                 st.session_state["selected_gift"] = st.session_state["shuffled_gifts"][idx]
                 st.session_state["game_state"] = "result"
-                st.balloons()
 
 def show_result():
     gift = st.session_state["selected_gift"]
@@ -90,14 +89,16 @@ def show_result():
 
         with st.expander("🌟 Nhận xét chung"):
             st.markdown(student['Feedback_Overall'])
+        
+        st.balloons()
 
     elif gift["type"] == "bomb":
         st.error("💣 Boom! Bạn đã chọn trúng hộp bom!")
         st.snow()
 
     elif gift["type"] == "star":
+        st.success("⭐ Bạn thật may mắn! Nhưng không phải kết quả học sinh nhé!")
         st.balloons()
-        st.success("⭐ Bạn thật may mắn! Nhưng đây không phải là kết quả học sinh nhé!")
 
     # ===== Nút Home =====
     st.markdown("<div style='height: 30px'></div>", unsafe_allow_html=True)
