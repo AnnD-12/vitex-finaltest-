@@ -30,32 +30,38 @@ gifts = [
     {"type": "star", "name": "⭐ Star"},
 ]
 
-# 7 hộp quà đẹp
 gift_images = [
-    "https://cdn-icons-png.flaticon.com/512/744/744922.png",  # Red
-    "https://cdn-icons-png.flaticon.com/512/744/744932.png",  # Blue
-    "https://cdn-icons-png.flaticon.com/512/744/744935.png",  # Green
-    "https://cdn-icons-png.flaticon.com/512/744/744934.png",  # Yellow
-    "https://cdn-icons-png.flaticon.com/512/744/744930.png",  # Purple
-    "https://cdn-icons-png.flaticon.com/512/744/744926.png",  # Orange
-    "https://cdn-icons-png.flaticon.com/512/744/744924.png",  # Pink
+    "https://cdn-icons-png.flaticon.com/512/744/744922.png",
+    "https://cdn-icons-png.flaticon.com/512/744/744932.png",
+    "https://cdn-icons-png.flaticon.com/512/744/744935.png",
+    "https://cdn-icons-png.flaticon.com/512/744/744934.png",
+    "https://cdn-icons-png.flaticon.com/512/744/744930.png",
+    "https://cdn-icons-png.flaticon.com/512/744/744926.png",
+    "https://cdn-icons-png.flaticon.com/512/744/744924.png",
 ]
 
 # ====================
 # Session State
 # ====================
 if "game_state" not in st.session_state:
-    st.session_state["game_state"] = "home"  # home | result
+    st.session_state["game_state"] = "home"
     st.session_state["selected_gift"] = None
     st.session_state["shuffled_gifts"] = random.sample(gifts, len(gifts))
 
 # ====================
-# Functions
+# Callback Functions
 # ====================
 def select_gift(idx):
     st.session_state["selected_gift"] = st.session_state["shuffled_gifts"][idx]
     st.session_state["game_state"] = "result"
 
+def go_home():
+    st.session_state["game_state"] = "home"
+    st.session_state["shuffled_gifts"] = random.sample(gifts, len(gifts))
+
+# ====================
+# Display Functions
+# ====================
 def show_home():
     st.markdown("<h2 style='text-align: center;'>🎁 Chọn một hộp quà để khám phá!</h2>", unsafe_allow_html=True)
     st.markdown("<div style='height: 30px'></div>", unsafe_allow_html=True)
@@ -102,11 +108,8 @@ def show_result():
         st.success("⭐ Bạn thật may mắn! Nhưng đây không phải kết quả học sinh nhé!")
         st.balloons()
 
-    # ===== Nút Home =====
     st.markdown("<div style='height: 30px'></div>", unsafe_allow_html=True)
-    if st.button("🏠 Quay về chọn hộp khác"):
-        st.session_state["game_state"] = "home"
-        st.session_state["shuffled_gifts"] = random.sample(gifts, len(gifts))
+    st.button("🏠 Quay về chọn hộp khác", on_click=go_home)
 
 # ====================
 # Main Control
